@@ -83,6 +83,7 @@ public class HangmanApp {
 		if (hits == word.length()) { // ends the current game and prints out a message, returns the result of the
 										// game
 			System.out.println(word);
+			Graphic.printCelebrationGraphic();
 			System.out.println("You Win!!!");
 			return true;
 		} else {

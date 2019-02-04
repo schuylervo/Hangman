@@ -55,6 +55,7 @@ public class HangmanApp {
 			}
 			System.out.println();
 
+			Graphic.printGraphic(misses);
 			System.out.println("Misses: " + misses); // tracks misses
 			char guess = getGuess().toLowerCase().charAt(0); // gets the guess
 //			guessList += guess + " "; // updates the guess list
@@ -85,6 +86,7 @@ public class HangmanApp {
 			System.out.println("You Win!!!");
 			return true;
 		} else {
+			Graphic.printGraphic(6);
 			System.out.println("You Lose :(");
 			System.out.println("The word was: " + word);
 			return false;

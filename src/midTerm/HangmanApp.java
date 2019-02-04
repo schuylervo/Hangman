@@ -123,9 +123,7 @@ public class HangmanApp {
 				highscores.add(highscore);
 			}
 			EasyHighScoreTextFile.writeFile(highscores);
-			for(HighScore highscore : highscores) {
-				System.out.println(highscore);
-			}
+			
 			
 		}else if(diff==2) {
 			highscores = MediumHighScoreTextFile.readFile();
@@ -142,9 +140,7 @@ public class HangmanApp {
 				highscores.add(highscore);
 			}
 			MediumHighScoreTextFile.writeFile(highscores);
-			for(HighScore highscore : highscores) {
-				System.out.println(highscore);
-			}
+			
 			
 		}else if(diff==3) {
 			highscores = HardHighScoreTextFile.readFile();
@@ -161,11 +157,16 @@ public class HangmanApp {
 				highscores.add(highscore);
 			}
 			HardHighScoreTextFile.writeFile(highscores);
-			for(HighScore highscore : highscores) {
-				System.out.println(highscore);
-			}
+			
 		}
+		System.out.println("******* HIGH SCORES *******");
+		System.out.printf("%-10s%-10s%-10s", "WINS", "LOSSES", "USER");
+		System.out.println();
 		
+		for(HighScore highscore : highscores) {
+			System.out.printf("%-10d%-10d%-10s", highscore.getWins(), highscore.getLosses(), highscore.getName());
+			System.out.println();
+		}
 	}
 
 	public static String wordStart(String word) { // returns a string with a number of underscores equal to the letters

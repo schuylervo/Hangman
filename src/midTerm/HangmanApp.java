@@ -1,5 +1,5 @@
 package midTerm;
-
+import java.util.Collections;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -159,6 +159,7 @@ public class HangmanApp {
 			HardHighScoreTextFile.writeFile(highscores);
 			
 		}
+		Collections.sort(highscores,(HighScore1,HighScore2) -> HighScore2.getWins() - HighScore1.getWins());
 		System.out.println("******* HIGH SCORES *******");
 		System.out.printf("%-10s%-10s%-10s", "WINS", "LOSSES", "USER");
 		System.out.println();

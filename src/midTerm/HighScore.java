@@ -28,6 +28,11 @@ public class HighScore {
 		return wins;
 	}
 
+	@Override
+	public String toString() {
+		return "name: " + name + " wins = " + wins + " losses = " + losses;
+	}
+
 	public void setWins(int wins) {
 		this.wins = wins;
 	}

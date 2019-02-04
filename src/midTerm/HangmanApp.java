@@ -8,10 +8,17 @@ public class HangmanApp {
 
 	public static void main(String[] args) {
 
+		// creating files if they don't already exist
 		 EasyWordsTextFile.createDirectory("WordLists");
 		 EasyWordsTextFile.createBlankFile("WordLists/easywords.txt");
 		 EasyWordsTextFile.createBlankFile("WordLists/mediumwords.txt");
 		 EasyWordsTextFile.createBlankFile("WordLists/hardwords.txt");
+		 EasyHighScoreTextFile.createDirectory("HighScores");
+		 EasyHighScoreTextFile.createBlankFile("HighScores/easyhighscores.txt");
+		 EasyHighScoreTextFile.createBlankFile("HighScores/mediumhighscores.txt");
+		 EasyHighScoreTextFile.createBlankFile("HighScores/hardhighscores.txt");
+		 
+		 
 		printWelcome();
 		String name = askName();
 		int diff = getDiff();
@@ -27,8 +34,10 @@ public class HangmanApp {
 			}
 			keepPlaying = keepPlaying();
 		}
+		updateHighScores(diff,name,sessionWins,sessionLosses);
 		System.out.println(name + ", your record this session was " + sessionWins + "-" + sessionLosses);
 
+		
 		printGoodbye();
 
 	}
@@ -48,9 +57,9 @@ public class HangmanApp {
 
 			System.out.println("Misses: " + misses); // tracks misses
 			char guess = getGuess().toLowerCase().charAt(0); // gets the guess
-			guessList += guess + " "; // updates the guess list
+//			guessList += guess + " "; // updates the guess list
 
-			if (!(word.indexOf(guess) == -1)) { // if the word contains the letter, this replaces the underscores with
+			if (!(word.indexOf(guess) == -1) && (guessList.indexOf(guess) == -1)) { // if the word contains the letter, this replaces the underscores with
 												// that letter in the appropriate position(s) and ticks up the hit count
 												// for each instance
 				for (int i = 0; i < word.length(); i++) {
@@ -65,6 +74,7 @@ public class HangmanApp {
 				System.out.println("Miss!");
 				misses++;
 			}
+			guessList += guess + " "; // updates the guess list
 			if (misses < missMax) { // added this so the guess list didn't print out again if they had already lost
 				System.out.println("Guesses so far: " + guessList);
 			}
@@ -91,6 +101,68 @@ public class HangmanApp {
 		}
 		return guess;
 
+	}
+	
+	public static void updateHighScores(int diff, String name, int sessionWins, int sessionLosses) {
+		ArrayList <HighScore> highscores = new ArrayList<>();
+		if (diff==1) {
+			highscores = EasyHighScoreTextFile.readFile();
+			boolean hasName = false;
+			for (int i=0;i<highscores.size();i++) {
+				if(highscores.get(i).getName().equals(name) ) {
+					highscores.get(i).setWins(highscores.get(i).getWins() + sessionWins);
+					highscores.get(i).setLosses(highscores.get(i).getLosses() + sessionLosses);
+					hasName = true;
+				}
+			}
+			if (!hasName) {
+				HighScore highscore = new HighScore(name,sessionWins,sessionLosses);
+				highscores.add(highscore);
+			}
+			EasyHighScoreTextFile.writeFile(highscores);
+			for(HighScore highscore : highscores) {
+				System.out.println(highscore);
+			}
+			
+		}else if(diff==2) {
+			highscores = MediumHighScoreTextFile.readFile();
+			boolean hasName = false;
+			for (int i=0;i<highscores.size();i++) {
+				if(highscores.get(i).getName().equals(name) ) {
+					highscores.get(i).setWins(highscores.get(i).getWins() + sessionWins);
+					highscores.get(i).setLosses(highscores.get(i).getLosses() + sessionLosses);
+					hasName = true;
+				}
+			}
+			if (!hasName) {
+				HighScore highscore = new HighScore(name,sessionWins,sessionLosses);
+				highscores.add(highscore);
+			}
+			MediumHighScoreTextFile.writeFile(highscores);
+			for(HighScore highscore : highscores) {
+				System.out.println(highscore);
+			}
+			
+		}else if(diff==3) {
+			highscores = HardHighScoreTextFile.readFile();
+			boolean hasName = false;
+			for (int i=0;i<highscores.size();i++) {
+				if(highscores.get(i).getName().equals(name) ) {
+					highscores.get(i).setWins(highscores.get(i).getWins() + sessionWins);
+					highscores.get(i).setLosses(highscores.get(i).getLosses() + sessionLosses);
+					hasName = true;
+				}
+			}
+			if (!hasName) {
+				HighScore highscore = new HighScore(name,sessionWins,sessionLosses);
+				highscores.add(highscore);
+			}
+			HardHighScoreTextFile.writeFile(highscores);
+			for(HighScore highscore : highscores) {
+				System.out.println(highscore);
+			}
+		}
+		
 	}
 
 	public static String wordStart(String word) { // returns a string with a number of underscores equal to the letters

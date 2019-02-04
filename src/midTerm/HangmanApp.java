@@ -76,7 +76,7 @@ public class HangmanApp {
 				misses++;
 			}
 			guessList += guess + " "; // updates the guess list
-			if (misses < missMax) { // added this so the guess list didn't print out again if they had already lost
+			if (misses < missMax && hits != word.length()) { // added this so the guess list didn't print out again if they had already lost
 				System.out.println("Guesses so far: " + guessList);
 			}
 		}

@@ -13,45 +13,36 @@ import javafx.embed.swing.JFXPanel;
 //     then you change the access rules 
 
 public class HangmanApp {
+
 	public static final String FILE_PATH = "airhorn2.mp3";
 	public static final String FILE_PATH2 = "sadtrombone.mp3";
 	public static final String FILE_PATH3 = "gamesong.mp3";
-
+	
 	public static void main(String[] args) {
+		
 //		playSound1();  //Sound 1 is for win
 //		playSound2(); // Sound 2 is for loss
 //		playSound3(); // sound 3 is for during game
-		
+
 		// creating files if they don't already exist
-		EasyWordsTextFile.createDirectory("WordLists");
-		EasyWordsTextFile.createBlankFile("WordLists/easywords.txt");
-		EasyWordsTextFile.createBlankFile("WordLists/mediumwords.txt");
-		EasyWordsTextFile.createBlankFile("WordLists/hardwords.txt");
-		EasyHighScoreTextFile.createDirectory("HighScores");
-		EasyHighScoreTextFile.createBlankFile("HighScores/easyhighscores.txt");
-		EasyHighScoreTextFile.createBlankFile("HighScores/mediumhighscores.txt");
-		EasyHighScoreTextFile.createBlankFile("HighScores/hardhighscores.txt");
-
-		printWelcome();
-		String name = askName();
-		int diff = getDiff();
-		int sessionWins = 0;
-		int sessionLosses = 0;
-		String keepPlaying = "y";
-		while (keepPlaying.equalsIgnoreCase("y")) {
-			String word = getWord(diff);
-			if (runGame(name, word, diff)) {
-				sessionWins++;
-			} else {
-				sessionLosses++;
-			}
-			keepPlaying = keepPlaying();
-		}
-		updateHighScores(diff, name, sessionWins, sessionLosses);
-		System.out.println(name + ", your record this session was " + sessionWins + "-" + sessionLosses);
-
+		 EasyWordsTextFile.createDirectory("WordLists");
+		 EasyWordsTextFile.createBlankFile("WordLists/easywords.txt");
+		 EasyWordsTextFile.createBlankFile("WordLists/mediumwords.txt");
+		 EasyWordsTextFile.createBlankFile("WordLists/hardwords.txt");
+		 EasyHighScoreTextFile.createDirectory("HighScores");
+		 EasyHighScoreTextFile.createBlankFile("HighScores/easyhighscores.txt");
+		 EasyHighScoreTextFile.createBlankFile("HighScores/mediumhighscores.txt");
+		 EasyHighScoreTextFile.createBlankFile("HighScores/hardhighscores.txt");
+		 EasyHighScoreTextFile.createDirectory("MultipleWordHighScores");
+		 EasyHighScoreTextFile.createBlankFile("MultipleWordHighScores/multiplewordeasyhighscores.txt");
+		 EasyHighScoreTextFile.createBlankFile("MultipleWordHighScores/multiplewordmediumhighscores.txt");
+		 EasyHighScoreTextFile.createBlankFile("MultipleWordHighScores/multiplewordhardhighscores.txt");
+		 
+		printWelcome();		
+		launchGameSelection();
+		
 		printGoodbye();
-
+		System.exit(0);
 	}
 
 	public static boolean runGame(String userName, String word, int diff) {
@@ -61,9 +52,9 @@ public class HangmanApp {
 		int missMax = 6;
 		String guessList = "";
 		playSound3(); //starts game music on repeat, stops on win or loss, starts again if they want to continue
+		
 		while (misses < missMax && hits != word.length()) { // loops while they havent hit the max misses or won
 
-			
 			for (int j = 0; j < word.length(); j++) {
 				System.out.print(wordStatus.charAt(j) + " "); // adds separation to the underscores
 			}
@@ -74,11 +65,9 @@ public class HangmanApp {
 			char guess = getGuess().toLowerCase().charAt(0); // gets the guess
 //			guessList += guess + " "; // updates the guess list
 
-			if (!(word.indexOf(guess) == -1) && (guessList.indexOf(guess) == -1)) { // if the word contains the letter,
-																					// this replaces the underscores
-																					// with
-				// that letter in the appropriate position(s) and ticks up the hit count
-				// for each instance
+			if (!(word.indexOf(guess) == -1) && (guessList.indexOf(guess) == -1)) { // if the word contains the letter, this replaces the underscores with
+												// that letter in the appropriate position(s) and ticks up the hit count
+												// for each instance
 				for (int i = 0; i < word.length(); i++) {
 					char currChar = word.charAt(i);
 					if (currChar == guess) {
@@ -92,13 +81,12 @@ public class HangmanApp {
 				misses++;
 			}
 			guessList += guess + " "; // updates the guess list
-			if (misses < missMax && hits != word.length()) { // added this so the guess list didn't print out again if
-																// they had already lost
+			if (misses < missMax && hits != word.length()) { // added this so the guess list didn't print out again if they had already lost
 				System.out.println("Guesses so far: " + guessList);
 			}
 		}
-		if (hits == word.length()) { // ends the current game and prints out a message, returns the result of the game
-							
+		if (hits == word.length()) { // ends the current game and prints out a message, returns the result of the
+										// game
 			player3.stop();
 			playSound1();
 			System.out.println(word);
@@ -126,67 +114,69 @@ public class HangmanApp {
 		return guess;
 
 	}
-
+	
 	public static void updateHighScores(int diff, String name, int sessionWins, int sessionLosses) {
-		ArrayList<HighScore> highscores = new ArrayList<>();
-		if (diff == 1) {
+		ArrayList <HighScore> highscores = new ArrayList<>();
+		if (diff==1) {
 			highscores = EasyHighScoreTextFile.readFile();
 			boolean hasName = false;
-			for (int i = 0; i < highscores.size(); i++) {
-				if (highscores.get(i).getName().equals(name)) {
+			for (int i=0;i<highscores.size();i++) {
+				if(highscores.get(i).getName().equals(name) ) {
 					highscores.get(i).setWins(highscores.get(i).getWins() + sessionWins);
 					highscores.get(i).setLosses(highscores.get(i).getLosses() + sessionLosses);
 					hasName = true;
 				}
 			}
 			if (!hasName) {
-				HighScore highscore = new HighScore(name, sessionWins, sessionLosses);
+				HighScore highscore = new HighScore(name,sessionWins,sessionLosses);
 				highscores.add(highscore);
 			}
 			EasyHighScoreTextFile.writeFile(highscores);
-
-		} else if (diff == 2) {
+			
+			
+		}else if(diff==2) {
 			highscores = MediumHighScoreTextFile.readFile();
 			boolean hasName = false;
-			for (int i = 0; i < highscores.size(); i++) {
-				if (highscores.get(i).getName().equals(name)) {
+			for (int i=0;i<highscores.size();i++) {
+				if(highscores.get(i).getName().equals(name) ) {
 					highscores.get(i).setWins(highscores.get(i).getWins() + sessionWins);
 					highscores.get(i).setLosses(highscores.get(i).getLosses() + sessionLosses);
 					hasName = true;
 				}
 			}
 			if (!hasName) {
-				HighScore highscore = new HighScore(name, sessionWins, sessionLosses);
+				HighScore highscore = new HighScore(name,sessionWins,sessionLosses);
 				highscores.add(highscore);
 			}
 			MediumHighScoreTextFile.writeFile(highscores);
-
-		} else if (diff == 3) {
+			
+			
+		}else if(diff==3) {
 			highscores = HardHighScoreTextFile.readFile();
 			boolean hasName = false;
-			for (int i = 0; i < highscores.size(); i++) {
-				if (highscores.get(i).getName().equals(name)) {
+			for (int i=0;i<highscores.size();i++) {
+				if(highscores.get(i).getName().equals(name) ) {
 					highscores.get(i).setWins(highscores.get(i).getWins() + sessionWins);
 					highscores.get(i).setLosses(highscores.get(i).getLosses() + sessionLosses);
 					hasName = true;
 				}
 			}
 			if (!hasName) {
-				HighScore highscore = new HighScore(name, sessionWins, sessionLosses);
+				HighScore highscore = new HighScore(name,sessionWins,sessionLosses);
 				highscores.add(highscore);
 			}
 			HardHighScoreTextFile.writeFile(highscores);
-
+			
 		}
-		Collections.sort(highscores, (HighScore1, HighScore2) -> HighScore2.getWins() - HighScore1.getWins());
+		Collections.sort(highscores,(HighScore1,HighScore2) -> HighScore2.getWins() - HighScore1.getWins());
 		System.out.println("******* HIGH SCORES *******");
-		System.out.printf("%-10s%-10s%-10s%-10s", "WINS", "LOSSES","WIN%", "USER");
+		System.out.printf("%-10s%-10s%-10s", "WINS", "LOSSES", "USER");
 		System.out.println();
-
-		for (HighScore highscore : highscores) {
+		
+		for(HighScore highscore : highscores) {
 			double winPct = 0.0;
 			winPct = (double)highscore.getWins()/((double)highscore.getWins()+(double)highscore.getLosses());
-			System.out.printf("%-10d%-10d%-10.2f%-10s", highscore.getWins(), highscore.getLosses(),winPct, highscore.getName());
+			System.out.printf("%-10d%-10d%-10s", highscore.getWins(), highscore.getLosses(), winPct, highscore.getName());
 			System.out.println();
 		}
 	}
@@ -210,6 +200,57 @@ public class HangmanApp {
 		String name;
 		name = Validator.getString(scnr, "Please enter your name:");
 		return name;
+
+	}
+	
+	public static int gameChoice() { // displays and gets the user's game choice
+		Scanner scnr = new Scanner(System.in);
+		int choice;
+		choice = Validator.getInt(scnr, "\nPlease enter a number to select the game mode: \n 1. Classic Game \n 2. Multiple Word Challenge", 1, 2);
+		return choice;
+	}
+	
+	public static int launchGameSelection() { // calls a method corresponding to the game choice made by the user
+		int choice = gameChoice();
+		String name = askName();
+		int diff = getDiff();
+		String word = getWord(diff);
+
+		switch (choice) {
+		case 1: 
+			runGame(name, word, diff);
+			classicMode();
+			
+			break;
+		case 2: SecondGameMode.runSecondGame(name, word, diff);
+			break;
+		default:
+			System.out.println("Invalid input. Please enter '1' or '2'.");
+			break;
+		}
+		
+		return choice;
+	}
+	
+	public static void classicMode() {
+		
+		String keepPlaying = "y";
+		String name = askName();
+		int diff = getDiff();
+		int sessionWins = 0;
+		int sessionLosses = 0;
+		
+		while (keepPlaying.equalsIgnoreCase("y")) {
+			String word = getWord(diff);
+			if (runGame(name, word, diff)) {
+				sessionWins++;
+			} else {
+				sessionLosses++;
+			}
+			keepPlaying = keepPlaying();
+		}
+		updateHighScores(diff,name,sessionWins,sessionLosses);
+		System.out.println(name + ", your record this session was " + sessionWins + "-" + sessionLosses);
 
 	}
 
@@ -255,7 +296,7 @@ public class HangmanApp {
 
 		return word;
 	}
-
+	
 	public static MediaPlayer player;
 
 	public static void playSound1() {
@@ -299,11 +340,10 @@ public class HangmanApp {
 			player3.setStopTime(end);
 			player3.setCycleCount(MediaPlayer.INDEFINITE);
 			player3.play();
-			
+
 
 		} catch (Exception e3) {
 			e3.printStackTrace();
 		}
 	}
-
 }

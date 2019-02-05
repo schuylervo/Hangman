@@ -180,11 +180,13 @@ public class HangmanApp {
 		}
 		Collections.sort(highscores, (HighScore1, HighScore2) -> HighScore2.getWins() - HighScore1.getWins());
 		System.out.println("******* HIGH SCORES *******");
-		System.out.printf("%-10s%-10s%-10s", "WINS", "LOSSES", "USER");
+		System.out.printf("%-10s%-10s%-10s%-10s", "WINS", "LOSSES","WIN%", "USER");
 		System.out.println();
 
 		for (HighScore highscore : highscores) {
-			System.out.printf("%-10d%-10d%-10s", highscore.getWins(), highscore.getLosses(), highscore.getName());
+			double winPct = 0.0;
+			winPct = (double)highscore.getWins()/((double)highscore.getWins()+(double)highscore.getLosses());
+			System.out.printf("%-10d%-10d%-10.2f%-10s", highscore.getWins(), highscore.getLosses(),winPct, highscore.getName());
 			System.out.println();
 		}
 	}

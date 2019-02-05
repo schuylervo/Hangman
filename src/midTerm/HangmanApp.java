@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.URL;
 import java.nio.file.Paths;
+import javafx.util.Duration;
 import javafx.scene.media.*; //  need to allow access to both of these - right click on project, go 
 import javafx.embed.swing.JFXPanel;
 //     to Build Path -> Configure build path -> Libraries -> open JRE library
@@ -14,10 +15,12 @@ import javafx.embed.swing.JFXPanel;
 public class HangmanApp {
 	public static final String FILE_PATH = "airhorn2.mp3";
 	public static final String FILE_PATH2 = "sadtrombone.mp3";
+	public static final String FILE_PATH3 = "gamesong.mp3";
 
 	public static void main(String[] args) {
 //		playSound1();  //Sound 1 is for win
-//		playSound2(); // Sound 2 is for loss - add these in appropriate places later
+//		playSound2(); // Sound 2 is for loss
+//		playSound3(); // sound 3 is for during game
 		
 		// creating files if they don't already exist
 		EasyWordsTextFile.createDirectory("WordLists");
@@ -57,8 +60,10 @@ public class HangmanApp {
 		int hits = 0;
 		int missMax = 6;
 		String guessList = "";
+		playSound3(); //starts game music on repeat, stops on win or loss, starts again if they want to continue
 		while (misses < missMax && hits != word.length()) { // loops while they havent hit the max misses or won
 
+			
 			for (int j = 0; j < word.length(); j++) {
 				System.out.print(wordStatus.charAt(j) + " "); // adds separation to the underscores
 			}
@@ -92,14 +97,18 @@ public class HangmanApp {
 				System.out.println("Guesses so far: " + guessList);
 			}
 		}
-		if (hits == word.length()) { // ends the current game and prints out a message, returns the result of the
-										// game
+		if (hits == word.length()) { // ends the current game and prints out a message, returns the result of the game
+							
+			player3.stop();
+			playSound1();
 			System.out.println(word);
 			Graphic.printCelebrationGraphic();
 			System.out.println("You Win!!!");
 			return true;
 		} else {
 			Graphic.printGraphic(6);
+			player3.stop();
+			playSound2();
 			System.out.println("You Lose :(");
 			System.out.println("The word was: " + word);
 			return false;
@@ -245,7 +254,7 @@ public class HangmanApp {
 		return word;
 	}
 
-	private static MediaPlayer player;
+	public static MediaPlayer player;
 
 	public static void playSound1() {
 		try {
@@ -259,7 +268,7 @@ public class HangmanApp {
 		}
 	}
 
-	private static MediaPlayer player2;
+	public static MediaPlayer player2;
 
 	public static void playSound2() {
 		try {
@@ -271,6 +280,27 @@ public class HangmanApp {
 
 		} catch (Exception e2) {
 			e2.printStackTrace();
+		}
+	}
+	public static MediaPlayer player3;
+
+	public static void playSound3() {
+		try {
+			URL urL3 = ((Paths.get(FILE_PATH3)).toUri().toURL());
+			JFXPanel blarg3 = new JFXPanel();
+			Media sound3 = new Media(urL3.toString());
+			player3 = new MediaPlayer(sound3);
+//			player3.setOnRepeat(null);
+			Duration start = Duration.seconds(0.0);
+			Duration end = sound3.getDuration();
+			player3.setStartTime(start);
+			player3.setStopTime(end);
+			player3.setCycleCount(MediaPlayer.INDEFINITE);
+			player3.play();
+			
+
+		} catch (Exception e3) {
+			e3.printStackTrace();
 		}
 	}
 

@@ -215,12 +215,27 @@ public class HangmanApp {
 		String name = askName();
 		int diff = getDiff();
 		String word = getWord(diff);
+		String keepPlaying = "y";
+		int sessionWins = 0;
+		int sessionLosses = 0;
+		
+		
 
 		switch (choice) {
 		case 1: 
 			runGame(name, word, diff);
-			classicMode();
 			
+			while (keepPlaying.equalsIgnoreCase("y")) {
+				word = getWord(diff);
+				if (runGame(name, word, diff)) {
+					sessionWins++;
+				} else {
+					sessionLosses++;
+				}
+				keepPlaying = keepPlaying();
+			}
+			updateHighScores(diff,name,sessionWins,sessionLosses);
+			System.out.println(name + ", your record this session was " + sessionWins + "-" + sessionLosses);
 			break;
 		case 2: SecondGameMode.runSecondGame(name, word, diff);
 			break;
@@ -232,11 +247,11 @@ public class HangmanApp {
 		return choice;
 	}
 	
-	public static void classicMode() {
+/*	public static void classicMode() {
 		
 		String keepPlaying = "y";
-		String name = askName();
-		int diff = getDiff();
+		//String name = askName();
+		//int diff = getDiff();
 		int sessionWins = 0;
 		int sessionLosses = 0;
 		
@@ -253,7 +268,7 @@ public class HangmanApp {
 		System.out.println(name + ", your record this session was " + sessionWins + "-" + sessionLosses);
 
 	}
-
+*/
 	public static String keepPlaying() { // asks if the user wants to continue
 		Scanner scnr = new Scanner(System.in);
 		String keepPlaying = Validator.getString(scnr, "Press \"y\" to keep playing, any other key to exit");

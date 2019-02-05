@@ -1,24 +1,34 @@
 package midTerm;
+
 import java.util.Collections;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.net.URL;
+import java.nio.file.Paths;
+import javafx.scene.media.*; //  need to allow access to both of these - right click on project, go 
+import javafx.embed.swing.JFXPanel;
+//     to Build Path -> Configure build path -> Libraries -> open JRE library
+//     then you change the access rules 
 
 public class HangmanApp {
+	public static final String FILE_PATH = "airhorn2.mp3";
+	public static final String FILE_PATH2 = "sadtrombone.mp3";
 
 	public static void main(String[] args) {
-
+//		playSound1();  //Sound 1 is for win
+//		playSound2(); // Sound 2 is for loss - add these in appropriate places later
+		
 		// creating files if they don't already exist
-		 EasyWordsTextFile.createDirectory("WordLists");
-		 EasyWordsTextFile.createBlankFile("WordLists/easywords.txt");
-		 EasyWordsTextFile.createBlankFile("WordLists/mediumwords.txt");
-		 EasyWordsTextFile.createBlankFile("WordLists/hardwords.txt");
-		 EasyHighScoreTextFile.createDirectory("HighScores");
-		 EasyHighScoreTextFile.createBlankFile("HighScores/easyhighscores.txt");
-		 EasyHighScoreTextFile.createBlankFile("HighScores/mediumhighscores.txt");
-		 EasyHighScoreTextFile.createBlankFile("HighScores/hardhighscores.txt");
-		 
-		 
+		EasyWordsTextFile.createDirectory("WordLists");
+		EasyWordsTextFile.createBlankFile("WordLists/easywords.txt");
+		EasyWordsTextFile.createBlankFile("WordLists/mediumwords.txt");
+		EasyWordsTextFile.createBlankFile("WordLists/hardwords.txt");
+		EasyHighScoreTextFile.createDirectory("HighScores");
+		EasyHighScoreTextFile.createBlankFile("HighScores/easyhighscores.txt");
+		EasyHighScoreTextFile.createBlankFile("HighScores/mediumhighscores.txt");
+		EasyHighScoreTextFile.createBlankFile("HighScores/hardhighscores.txt");
+
 		printWelcome();
 		String name = askName();
 		int diff = getDiff();
@@ -34,10 +44,9 @@ public class HangmanApp {
 			}
 			keepPlaying = keepPlaying();
 		}
-		updateHighScores(diff,name,sessionWins,sessionLosses);
+		updateHighScores(diff, name, sessionWins, sessionLosses);
 		System.out.println(name + ", your record this session was " + sessionWins + "-" + sessionLosses);
 
-		
 		printGoodbye();
 
 	}
@@ -60,9 +69,11 @@ public class HangmanApp {
 			char guess = getGuess().toLowerCase().charAt(0); // gets the guess
 //			guessList += guess + " "; // updates the guess list
 
-			if (!(word.indexOf(guess) == -1) && (guessList.indexOf(guess) == -1)) { // if the word contains the letter, this replaces the underscores with
-												// that letter in the appropriate position(s) and ticks up the hit count
-												// for each instance
+			if (!(word.indexOf(guess) == -1) && (guessList.indexOf(guess) == -1)) { // if the word contains the letter,
+																					// this replaces the underscores
+																					// with
+				// that letter in the appropriate position(s) and ticks up the hit count
+				// for each instance
 				for (int i = 0; i < word.length(); i++) {
 					char currChar = word.charAt(i);
 					if (currChar == guess) {
@@ -76,7 +87,8 @@ public class HangmanApp {
 				misses++;
 			}
 			guessList += guess + " "; // updates the guess list
-			if (misses < missMax && hits != word.length()) { // added this so the guess list didn't print out again if they had already lost
+			if (misses < missMax && hits != word.length()) { // added this so the guess list didn't print out again if
+																// they had already lost
 				System.out.println("Guesses so far: " + guessList);
 			}
 		}
@@ -105,66 +117,64 @@ public class HangmanApp {
 		return guess;
 
 	}
-	
+
 	public static void updateHighScores(int diff, String name, int sessionWins, int sessionLosses) {
-		ArrayList <HighScore> highscores = new ArrayList<>();
-		if (diff==1) {
+		ArrayList<HighScore> highscores = new ArrayList<>();
+		if (diff == 1) {
 			highscores = EasyHighScoreTextFile.readFile();
 			boolean hasName = false;
-			for (int i=0;i<highscores.size();i++) {
-				if(highscores.get(i).getName().equals(name) ) {
+			for (int i = 0; i < highscores.size(); i++) {
+				if (highscores.get(i).getName().equals(name)) {
 					highscores.get(i).setWins(highscores.get(i).getWins() + sessionWins);
 					highscores.get(i).setLosses(highscores.get(i).getLosses() + sessionLosses);
 					hasName = true;
 				}
 			}
 			if (!hasName) {
-				HighScore highscore = new HighScore(name,sessionWins,sessionLosses);
+				HighScore highscore = new HighScore(name, sessionWins, sessionLosses);
 				highscores.add(highscore);
 			}
 			EasyHighScoreTextFile.writeFile(highscores);
-			
-			
-		}else if(diff==2) {
+
+		} else if (diff == 2) {
 			highscores = MediumHighScoreTextFile.readFile();
 			boolean hasName = false;
-			for (int i=0;i<highscores.size();i++) {
-				if(highscores.get(i).getName().equals(name) ) {
+			for (int i = 0; i < highscores.size(); i++) {
+				if (highscores.get(i).getName().equals(name)) {
 					highscores.get(i).setWins(highscores.get(i).getWins() + sessionWins);
 					highscores.get(i).setLosses(highscores.get(i).getLosses() + sessionLosses);
 					hasName = true;
 				}
 			}
 			if (!hasName) {
-				HighScore highscore = new HighScore(name,sessionWins,sessionLosses);
+				HighScore highscore = new HighScore(name, sessionWins, sessionLosses);
 				highscores.add(highscore);
 			}
 			MediumHighScoreTextFile.writeFile(highscores);
-			
-			
-		}else if(diff==3) {
+
+		} else if (diff == 3) {
 			highscores = HardHighScoreTextFile.readFile();
 			boolean hasName = false;
-			for (int i=0;i<highscores.size();i++) {
-				if(highscores.get(i).getName().equals(name) ) {
+			for (int i = 0; i < highscores.size(); i++) {
+				if (highscores.get(i).getName().equals(name)) {
 					highscores.get(i).setWins(highscores.get(i).getWins() + sessionWins);
 					highscores.get(i).setLosses(highscores.get(i).getLosses() + sessionLosses);
 					hasName = true;
 				}
 			}
 			if (!hasName) {
-				HighScore highscore = new HighScore(name,sessionWins,sessionLosses);
+				HighScore highscore = new HighScore(name, sessionWins, sessionLosses);
 				highscores.add(highscore);
 			}
 			HardHighScoreTextFile.writeFile(highscores);
-			
+
 		}
-		Collections.sort(highscores,(HighScore1,HighScore2) -> HighScore2.getWins() - HighScore1.getWins());
+		Collections.sort(highscores, (HighScore1, HighScore2) -> HighScore2.getWins() - HighScore1.getWins());
 		System.out.println("******* HIGH SCORES *******");
 		System.out.printf("%-10s%-10s%-10s", "WINS", "LOSSES", "USER");
 		System.out.println();
-		
-		for(HighScore highscore : highscores) {
+
+		for (HighScore highscore : highscores) {
 			System.out.printf("%-10d%-10d%-10s", highscore.getWins(), highscore.getLosses(), highscore.getName());
 			System.out.println();
 		}
@@ -234,4 +244,34 @@ public class HangmanApp {
 
 		return word;
 	}
+
+	private static MediaPlayer player;
+
+	public static void playSound1() {
+		try {
+			URL urL = ((Paths.get(FILE_PATH)).toUri().toURL());
+			JFXPanel blarg = new JFXPanel();
+			Media sound = new Media(urL.toString());
+			player = new MediaPlayer(sound);
+			player.play();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static MediaPlayer player2;
+
+	public static void playSound2() {
+		try {
+			URL urL2 = ((Paths.get(FILE_PATH2)).toUri().toURL());
+			JFXPanel blarg2 = new JFXPanel();
+			Media sound2 = new Media(urL2.toString());
+			player2 = new MediaPlayer(sound2);
+			player2.play();
+
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+	}
+
 }

@@ -2,9 +2,36 @@ package midTerm;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
+import java.net.URL;
+import java.nio.file.Paths;
+import javafx.util.Duration;
+import javafx.scene.media.*; //  need to allow access to both of these - right click on project, go 
+import javafx.embed.swing.JFXPanel;
 
 public class SecondGameMode {
 
+	public static final String FILE_PATH = "rockyTheme.mp3";
+	public static MediaPlayer player;
+	public static void playSound() {
+		try {
+			URL urL = ((Paths.get(FILE_PATH)).toUri().toURL());
+			JFXPanel blarg = new JFXPanel();
+			Media sound = new Media(urL.toString());
+			player = new MediaPlayer(sound);
+//			player.setOnRepeat(null);
+			Duration start = Duration.seconds(0.0);
+			Duration end = sound.getDuration();
+			player.setStartTime(start);
+			player.setStopTime(end);
+			player.setCycleCount(MediaPlayer.INDEFINITE);
+			player.play();
+
+
+		} catch (Exception e3) {
+			e3.printStackTrace();
+		}
+	}
 	public static boolean runSecondGame(String userName, String word, int diff) {
 
 		int misses = 0;
@@ -15,6 +42,7 @@ public class SecondGameMode {
 		String guessList = "";
 
 		String wordStatus = HangmanApp.wordStart(word);
+		playSound();
 
 		System.out.println(
 				"\n Welcome to Multiple Word Challenge. You have 100 guesses. Try to spell as many words as possible! \n");

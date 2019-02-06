@@ -225,6 +225,7 @@ public class HangmanApp {
 		case 1: 
 //			runGame(name, word, diff);
 			
+			
 			while (keepPlaying.equalsIgnoreCase("y")) {
 				word = getWord(diff);
 				if (runGame(name, word, diff)) {

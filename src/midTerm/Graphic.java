@@ -92,93 +92,96 @@ public class Graphic {
 		}
 	}
 		public static void printGraphic2(int cumulativeMisses) {
+			// scale "misses" from 0 - 100 to 0 - 6
+			int adjustedMisses = (int)(cumulativeMisses/16.66);
+			printGraphic(adjustedMisses);
 			
-			switch (cumulativeMisses) {
-			case 0:
-				System.out.println("   ____");
-				System.out.println("  |    |");
-				System.out.println("  |    ");
-				System.out.println("  |   ");
-				System.out.println("  |     ");
-				System.out.println("  |    ");
-				System.out.println(" _|_");
-				System.out.println("|   |______");
-				System.out.println("|          |");
-				System.out.println("|__________|");
-			break;
-			case 20:
-				System.out.println("   ____");
-				System.out.println("  |    |");
-				System.out.println("  |    o");
-				System.out.println("  |   ");
-				System.out.println("  |     ");
-				System.out.println("  |    ");
-				System.out.println(" _|_");
-				System.out.println("|   |______");
-				System.out.println("|          |");
-				System.out.println("|__________|");
-			break;
-			case 40:
-				System.out.println("   ____");
-				System.out.println("  |    |");
-				System.out.println("  |    o");
-				System.out.println("  |   /");
-				System.out.println("  |     ");
-				System.out.println("  |    ");
-				System.out.println(" _|_");
-				System.out.println("|   |______");
-				System.out.println("|          |");
-				System.out.println("|__________|");
-			break;
-			case 60:
-				System.out.println("   ____");
-				System.out.println("  |    |");
-				System.out.println("  |    o");
-				System.out.println("  |   / \\");
-				System.out.println("  |     ");
-				System.out.println("  |    ");
-				System.out.println(" _|_");
-				System.out.println("|   |______");
-				System.out.println("|          |");
-				System.out.println("|__________|");
-			break;
-			case 80:
-				System.out.println("   ____");
-				System.out.println("  |    |");
-				System.out.println("  |    o");
-				System.out.println("  |   /|\\");
-				System.out.println("  |    |");
-				System.out.println("  |    ");
-				System.out.println(" _|_");
-				System.out.println("|   |______");
-				System.out.println("|          |");
-				System.out.println("|__________|");
-			break;
-			case 90:
-				System.out.println("   ____");
-				System.out.println("  |    |");
-				System.out.println("  |    o");
-				System.out.println("  |   /|\\");
-				System.out.println("  |    |");
-				System.out.println("  |   /");
-				System.out.println(" _|_");
-				System.out.println("|   |______");
-				System.out.println("|          |");
-				System.out.println("|__________|");
-			break;
-			case 100:
-				System.out.println("   ____");
-				System.out.println("  |    |");
-				System.out.println("  |    o");
-				System.out.println("  |   /|\\");
-				System.out.println("  |    |");
-				System.out.println("  |   / \\");
-				System.out.println(" _|_");
-				System.out.println("|   |______");
-				System.out.println("|          |");
-				System.out.println("|__________|");
-			break;
-			}
+//			switch ((int)(cumulativeMisses/16.66)) {
+//			case 0:
+//				System.out.println("   ____");
+//				System.out.println("  |    |");
+//				System.out.println("  |    ");
+//				System.out.println("  |   ");
+//				System.out.println("  |     ");
+//				System.out.println("  |    ");
+//				System.out.println(" _|_");
+//				System.out.println("|   |______");
+//				System.out.println("|          |");
+//				System.out.println("|__________|");
+//			break;
+//			case 1:
+//				System.out.println("   ____");
+//				System.out.println("  |    |");
+//				System.out.println("  |    o");
+//				System.out.println("  |   ");
+//				System.out.println("  |     ");
+//				System.out.println("  |    ");
+//				System.out.println(" _|_");
+//				System.out.println("|   |______");
+//				System.out.println("|          |");
+//				System.out.println("|__________|");
+//			break;
+//			case 2:
+//				System.out.println("   ____");
+//				System.out.println("  |    |");
+//				System.out.println("  |    o");
+//				System.out.println("  |   /");
+//				System.out.println("  |     ");
+//				System.out.println("  |    ");
+//				System.out.println(" _|_");
+//				System.out.println("|   |______");
+//				System.out.println("|          |");
+//				System.out.println("|__________|");
+//			break;
+//			case 3:
+//				System.out.println("   ____");
+//				System.out.println("  |    |");
+//				System.out.println("  |    o");
+//				System.out.println("  |   / \\");
+//				System.out.println("  |     ");
+//				System.out.println("  |    ");
+//				System.out.println(" _|_");
+//				System.out.println("|   |______");
+//				System.out.println("|          |");
+//				System.out.println("|__________|");
+//			break;
+//			case 4:
+//				System.out.println("   ____");
+//				System.out.println("  |    |");
+//				System.out.println("  |    o");
+//				System.out.println("  |   /|\\");
+//				System.out.println("  |    |");
+//				System.out.println("  |    ");
+//				System.out.println(" _|_");
+//				System.out.println("|   |______");
+//				System.out.println("|          |");
+//				System.out.println("|__________|");
+//			break;
+//			case 5:
+//				System.out.println("   ____");
+//				System.out.println("  |    |");
+//				System.out.println("  |    o");
+//				System.out.println("  |   /|\\");
+//				System.out.println("  |    |");
+//				System.out.println("  |   /");
+//				System.out.println(" _|_");
+//				System.out.println("|   |______");
+//				System.out.println("|          |");
+//				System.out.println("|__________|");
+//			break;
+//			case 6:
+//				System.out.println("   ____");
+//				System.out.println("  |    |");
+//				System.out.println("  |    o");
+//				System.out.println("  |   /|\\");
+//				System.out.println("  |    |");
+//				System.out.println("  |   / \\");
+//				System.out.println(" _|_");
+//				System.out.println("|   |______");
+//				System.out.println("|          |");
+//				System.out.println("|__________|");
+//			break;
+//			}
 			
 		}
 			

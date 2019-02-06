@@ -76,13 +76,13 @@ public class SecondGameMode {
 
 		Graphic.printCelebrationGraphic();
 		System.out.println("You spelled " + spelledWordCount + " words correctly.");
-		//updateMultipleWordHighScores(diff,userName,spelledWordCount);
+		updateMultipleWordHighScores(diff,userName,spelledWordCount);
 		return true;
 	}
-	/*public static void updateHighScores(int diff, String name, int spelledWordCount) {
+	public static void updateMultipleWordHighScores(int diff, String name, int spelledWordCount) {
 		ArrayList <HighScore> highscores = new ArrayList<>();
 		if (diff==1) {
-			highscores = EasyHighScoreTextFile.readFile();
+			highscores = MultipleWordEasyHighScoreTextFile.readFile();
 			boolean hasName = false;
 			for (int i=0;i<highscores.size();i++) {
 				if(highscores.get(i).getName().equals(name) ) {
@@ -95,11 +95,11 @@ public class SecondGameMode {
 				HighScore highscore = new HighScore(name,spelledWordCount);
 				highscores.add(highscore);
 			}
-			EasyHighScoreTextFile.writeFile(highscores);
+			MultipleWordEasyHighScoreTextFile.writeFile(highscores);
 			
 			
 		}else if(diff==2) {
-			highscores = MediumHighScoreTextFile.readFile();
+			highscores = MultipleWordMediumHighScoreTextFile.readFile();
 			boolean hasName = false;
 			for (int i=0;i<highscores.size();i++) {
 				if(highscores.get(i).getName().equals(name) ) {
@@ -111,11 +111,11 @@ public class SecondGameMode {
 				HighScore highscore = new HighScore(name,spelledWordCount);
 				highscores.add(highscore);
 			}
-			MediumHighScoreTextFile.writeFile(highscores);
+			MultipleWordMediumHighScoreTextFile.writeFile(highscores);
 			
 			
 		}else if(diff==3) {
-			highscores = HardHighScoreTextFile.readFile();
+			highscores = MultipleWordHardHighScoreTextFile.readFile();
 			boolean hasName = false;
 			for (int i=0;i<highscores.size();i++) {
 				if(highscores.get(i).getName().equals(name) ) {
@@ -127,8 +127,8 @@ public class SecondGameMode {
 				HighScore highscore = new HighScore(name,spelledWordCount);
 				highscores.add(highscore);
 			}
-			HardHighScoreTextFile.writeFile(highscores);
-			
+			MultipleWordHardHighScoreTextFile.writeFile(highscores);
+		
 		}
 		Collections.sort(highscores,(HighScore1,HighScore2) -> HighScore2.getSpelledWordCount() - HighScore1.getSpelledWordCount());
 		System.out.println("******* HIGH SCORES *******");
@@ -139,7 +139,7 @@ public class SecondGameMode {
 			System.out.printf("%-10d%-10s", highscore.getSpelledWordCount(), highscore.getName());
 			System.out.println();
 		}
-	}
+	}	
 	
-	}*/
+		
 }

@@ -31,7 +31,7 @@ population
 pedestrian
 background
 preference
-break down
+breakdown
 proportion
 stereotype
 settlement
@@ -46,7 +46,7 @@ straighten
 decorative
 understand
 excavation
-right wing
+rightwing
 experiment
 girlfriend
 exhibition
@@ -69,7 +69,7 @@ compromise
 conclusion
 attractive
 enthusiasm
-cell phone
+cellphone
 continuous
 regulation
 experience
